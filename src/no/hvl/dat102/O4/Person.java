@@ -29,4 +29,15 @@ public class Person {
 		return false;
 	}
 	
+	public boolean equals(Person p) {
+		return navn.equals(p.getNavn());
+	}
+	
+	public String toString() {
+		return navn + ": " + hobby.toString();
+	}
+	
+	public String hentElement(int plass) {
+		return hobby.tilTabell()[plass];
+	}
 }
