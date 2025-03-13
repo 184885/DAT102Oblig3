@@ -2,8 +2,8 @@ package no.hvl.dat102.O4;
 
 public class TabellMengde<T> implements MengdeADT<T> {
 
-	private T[] tabell;
-	private int antall = tabell.length;
+	private T[] tabell = (T[]) new Object[100];
+	private int antall;
 	
 	@Override
 	public boolean erTom() {
@@ -90,6 +90,7 @@ public class TabellMengde<T> implements MengdeADT<T> {
 	@Override
 	public void leggTil(T element) {
 		tabell[antall] = element;
+		antall++;
 	}
 
 	@Override

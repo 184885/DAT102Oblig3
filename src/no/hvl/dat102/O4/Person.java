@@ -1,7 +1,5 @@
 package no.hvl.dat102.O4;
 
-import java.util.Objects;
-
 public class Person {
 
 	private String navn;
@@ -22,7 +20,7 @@ public class Person {
 		return hobby;
 	}
 	
-	public boolean inneholderHobby(String hobby) {
+	public boolean inneholderHobby(MengdeADT<String> hobby) {
 		for (int i = 0; i < this.hobby.antallElementer(); i++) {
 			if (this.hobby.equals(hobby)) {
 				return true;

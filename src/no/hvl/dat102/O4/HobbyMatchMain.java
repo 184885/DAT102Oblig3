@@ -2,7 +2,10 @@ package no.hvl.dat102.O4;
 
 public class HobbyMatchMain {
 	public static void main(String args[]) {
-		System.out.print(match(new Person("Ola", "Fotball", "Data"), new Person("Kari", "Fotball")));
+		System.out.println("Match Ola med Kari:" + match(new Person("Ola", "Fotball", "Data"), new Person("Kari", "Fotball")));
+		System.out.println("Match Kari med Ola:" + match(new Person("Kari", "Fotball"), new Person("Ola", "Fotball", "Data")));
+		System.out.println("Match Ola med Ola:" + match(new Person("Ola", "Fotball", "Data"), new Person("Ola", "Fotball", "Data")));
+		System.out.println("Match Kari med Kari:" + match(new Person("Kari", "Fotball"), new Person("Kari", "Fotball")));
 	}
 	
 	static double match(Person a, Person b) {
