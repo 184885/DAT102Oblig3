@@ -2,9 +2,22 @@ package no.hvl.dat102.O4;
 
 public class TabellMengde<T> implements MengdeADT<T> {
 
-	private T[] tabell = (T[]) new Object[100];
+	private static final int DEFAULT_KAPASITET = 10;
+
+	// Objektvariabler
+	private T[] tabell;
 	private int antall;
-	
+
+	// Konstruktør
+	public TabellMengde() {
+		this(DEFAULT_KAPASITET);
+	}
+	@SuppressWarnings("unchecked")
+	public TabellMengde(int kapasitet) {
+		this.tabell = (T[]) new Object[kapasitet];
+		this.antall = 0;
+	}
+
 	@Override
 	public boolean erTom() {
 		return (antall == 0);
@@ -89,28 +102,35 @@ public class TabellMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public void leggTil(T element) {
-		tabell[antall] = element;
-		antall++;
+		if (antall >= tabell.length) {
+			utvid();
+		}
+
+		// Sjekker at elementet ikkje allerede er i mengden
+		if (!inneholder(element)&&element!=null) {
+			tabell[antall] = element;
+			antall++;
+		}
 	}
 
 	@Override
 	public void leggTilAlleFra(MengdeADT<T> annenMengde) {
 		for (int i = 0; i < annenMengde.antallElementer(); i++) {
-            leggTil(annenMengde.tilTabell()[i]);
+			leggTil(annenMengde.tilTabell()[i]);
 		}
 	}
 
 	@Override
 	public T fjern(T element) {
 		for (int i = 0; i < antall; i++) {
-            if (tabell[i].equals(element)) {
-                T temp = tabell[i];
-                tabell[i] = tabell[antall - 1];
-                antall--;
-                return temp;
-            }
-        }
-        return null;
+			if (tabell[i].equals(element)) {
+				T temp = tabell[i];
+				tabell[i] = tabell[antall - 1];
+				antall--;
+				return temp;
+			}
+		}
+		return null;
 	}
 
 	@Override
@@ -123,5 +143,13 @@ public class TabellMengde<T> implements MengdeADT<T> {
 		return antall;
 	}
 
-		
+	// Hjelpemetoder
+	@SuppressWarnings("unchecked")
+	private void utvid() {
+		T[] utvid = (T[]) new Object[tabell.length * 2];
+		for (int i = 0; i < antall; i++) {
+			utvid[i] = tabell[i];
+		}
+		tabell = utvid;
+	}
 }

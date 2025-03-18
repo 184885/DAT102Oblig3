@@ -2,23 +2,26 @@ package no.hvl.dat102.O4;
 
 public class LenketMengde<T> implements MengdeADT<T> {
 
-	private class LinearNode<T> {
+	private class LinearNode {
 		private T data;
-		private LinearNode<T> neste;
+		private LinearNode neste;
 
-		public LinearNode(T element) {
+		private LinearNode(T element) {
 			this.data = element;
-			neste = null;
+			this.neste = null;
 		}
 	}
-	private LinearNode<T> forste;
+
+	// Objektvariabler
+	private LinearNode forste;
 	private int antall;
-	
+
+	// Konstruktør
 	public LenketMengde() {
 		forste = null;
 		antall = 0;
 	}
-	
+
 	@Override
 	public boolean erTom() {
 		return antall == 0;
@@ -26,7 +29,7 @@ public class LenketMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public boolean inneholder(T element) {
-		LinearNode<T> aktuell = forste;
+		LinearNode aktuell = forste;
 		boolean funnet = false;
 		while (aktuell != null && !funnet) {
 			if (aktuell.data.equals(element)) {
@@ -39,32 +42,29 @@ public class LenketMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public boolean erDelmengdeAv(MengdeADT<T> annenMengde) {
-		LinearNode<T> aktuell = forste;
-		boolean delmengde = false;
-		while (aktuell != null && delmengde) {
-			if (annenMengde.inneholder(aktuell.data)) {
-				delmengde = true;
-			}
-			aktuell = aktuell.neste;
+		// Sjekker at mengden ikkje inneholder fleire element enn annenMengde
+		if (antall > annenMengde.antallElementer()) {
+			return false;
 		}
-		return delmengde;
-	}
-
-	@Override
-	public boolean erLik(MengdeADT<T> annenMengde) {
-		LinearNode<T> aktuell = forste;
-		while (aktuell != null) {
-			if (!annenMengde.inneholder(aktuell.data)) {
+		LinearNode element = forste;
+		// Sjekker at alle elementene i mengden finnes i annenMengde
+		for (int i = 0; i < antall; i++) {
+			if (!annenMengde.inneholder(element.data)) {
 				return false;
 			}
-			aktuell = aktuell.neste;
+			element = element.neste;
 		}
 		return true;
 	}
 
 	@Override
+	public boolean erLik(MengdeADT<T> annenMengde) {
+		return (antall == annenMengde.antallElementer() && erDelmengdeAv(annenMengde));
+	}
+
+	@Override
 	public boolean erDisjunkt(MengdeADT<T> annenMengde) {
-		LinearNode<T> aktuell = forste;
+		LinearNode aktuell = forste;
 		boolean disjunkt = true;
 		while (aktuell != null && disjunkt) {
 			if (annenMengde.inneholder(aktuell.data)) {
@@ -90,44 +90,49 @@ public class LenketMengde<T> implements MengdeADT<T> {
 	@Override
 	public MengdeADT<T> union(MengdeADT<T> annenMengde) {
 		MengdeADT<T> union = new LenketMengde<T>();
-        LinearNode<T> aktuell = forste;
-        while (aktuell != null) {
-            union.leggTil(aktuell.data);
-            aktuell = aktuell.neste;
-        }
-        T[] tab = annenMengde.tilTabell();
-        for (int i = 0; i < tab.length; i++) {
-            if (!inneholder(tab[i])) {
-                union.leggTil(tab[i]);
-            }
-        }
-        return union;
+		LinearNode aktuell = forste;
+		while (aktuell != null) {
+			union.leggTil(aktuell.data);
+			aktuell = aktuell.neste;
+		}
+		T[] tab = annenMengde.tilTabell();
+		for (int i = 0; i < tab.length; i++) {
+			if (!inneholder(tab[i])) {
+				union.leggTil(tab[i]);
+			}
+		}
+		return union;
 	}
 
 	@Override
 	public MengdeADT<T> minus(MengdeADT<T> annenMengde) {
-		T[] tab = annenMengde.tilTabell();
-		MengdeADT<T> nyMengde = new LenketMengde<T>();
-		for (int i = 0; i < tab.length; i++) {
-			if (!inneholder(tab[i])) {
-				nyMengde.leggTil(tab[i]);
+		// Oppretter returtabell
+		MengdeADT<T> minus = new LenketMengde<T>();
+		LinearNode element = forste;
+		for (int i = 0; i < this.antall; i++) {
+			// Sjekker at annenMengde ikkje inneholder elementet
+			if (!annenMengde.inneholder(element.data)) {
+				minus.leggTil(element.data);
 			}
+			element = element.neste;
 		}
-		return nyMengde;
+		return minus;
 	}
 
 	@Override
 	public void leggTil(T element) {
-		LinearNode<T> nyNode = new LinearNode<T>(element);
-		nyNode.neste = forste;
-		forste = nyNode;
-		antall++;
+		LinearNode nyNode = new LinearNode(element);
+		if (!inneholder(element)&&element!=null) {
+			nyNode.neste = forste;
+			forste = nyNode;
+			antall++;
+		}
 	}
 
 	@Override
 	public void leggTilAlleFra(MengdeADT<T> annenMengde) {
 		T[] tab = annenMengde.tilTabell();
-		for (int i = 0; i < tab.length; i++) {
+		for (int i = 0; i < annenMengde.antallElementer(); i++) {
 			leggTil(tab[i]);
 		}
 	}
@@ -137,9 +142,9 @@ public class LenketMengde<T> implements MengdeADT<T> {
 		if (erTom()) {
 			return null;
 		}
-		
-		LinearNode<T> aktuell = forste;
-		LinearNode<T> forrige = null;
+
+		LinearNode aktuell = forste;
+		LinearNode forrige = null;
 		boolean funnet = false;
 		while (aktuell != null && !funnet) {
 			if (aktuell.data.equals(element)) {
@@ -163,13 +168,15 @@ public class LenketMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public T[] tilTabell() {
+		// Opprette tabell
+		@SuppressWarnings("unchecked")
 		T[] tab = (T[]) new Object[antall];
-		LinearNode<T> aktuell = forste;
-		int i = 0;
-		while (aktuell != null) {
-			tab[i] = aktuell.data;
-			aktuell = aktuell.neste;
-			i++;
+
+		// Overføre data
+		LinearNode data = forste;
+		for (int i = 0; i < antall; i++) {
+			tab[antall - (i + 1)] = data.data; // Legger inn i motsatt rekkefølge
+			data = data.neste;
 		}
 		return tab;
 	}

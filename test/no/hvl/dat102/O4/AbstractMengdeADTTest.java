@@ -111,25 +111,6 @@ public abstract class AbstractMengdeADTTest {
 	}
 
 	/*
-	@Test
-	void info() {
-		System.out.println(this.getClass().getSimpleName());
-
-		System.out.println("   " + tomMengde.getClass().getSimpleName() + " tomMengde");
-		System.out.println("   " + tomMengdeString.getClass().getSimpleName() + " tomMengdeString");
-		System.out.println("   " + mengdeMedEttElement.getClass().getSimpleName() + " mengdeMedEttElement");
-		System.out.println("   " + mengdeMedToElement.getClass().getSimpleName() + " mengdeMedToElement");
-		System.out.println("   " + mengdeMed3Elementer.getClass().getSimpleName() + " mengdeMed3Elementer");
-		System.out.println("   " + mengdeMed4Elementer.getClass().getSimpleName() + " mengdeMed4Elementer");
-		System.out.println("   " + mengdeMed5Elementer.getClass().getSimpleName() + " mengdeMed5Elementer");
-		System.out.println("   " + mengdeMed6Elementer.getClass().getSimpleName() + " mengdeMed6Elementer");
-		System.out.println("   " + mengdeMed7Elementer.getClass().getSimpleName() + " mengdeMed7Elementer");
-		System.out.println("   " + mengdeLik3Elementer.getClass().getSimpleName() + " mengdeLik3Elementer");
-		System.out.println("   " + mengdeLik3Elementer2.getClass().getSimpleName() + " mengdeLik3Elementer2");
-	}
-	*/
-
-	/*
 	 * Ting å teste (vi har konstruktører, erTom, inneholder, erDelMengdeAv, erLik,
 	 * erDisjunkt, snitt, union, minus, leggTil, leggTilAlleFra, fjern, tilTabell,
 	 * antallElementer):
@@ -299,7 +280,7 @@ public abstract class AbstractMengdeADTTest {
 		assertTrue(mengdeMed3Elementer.erLik(mengdeLik3Elementer));
 		assertFalse(mengdeMed3Elementer.erLik(mengdeMed4Elementer));
 		assertFalse(mengdeMed3Elementer.erLik(mengdeMedPartal));
-		assertFalse(mengdeMed3Elementer.erLik(union3og4));
+		assertFalse(union3og4.erLik(mengdeMed3Elementer));
 		assertFalse(tomMengde.erLik(mengdeMed3Elementer));
 		
 		tomMengde.leggTilAlleFra(mengdeMed3Elementer);

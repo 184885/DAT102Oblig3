@@ -4,7 +4,7 @@ public class TabellMengdeTest extends AbstractMengdeADTTest {
 
 	@Override
 	MengdeADT<Integer> opprettNyMengdeOfInteger() {
-		return new TabellMengde<Integer>();
+		return new TabellMengde<Integer>(3);
 	}
 
 	@Override

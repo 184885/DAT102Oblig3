@@ -7,7 +7,6 @@ public class JavaSetToMengde<T> implements MengdeADT<T> {
 
 	private Set<T> set = new HashSet<>();
 
-	
 	@Override
 	public boolean erTom() {
 		return set.isEmpty();
@@ -22,21 +21,22 @@ public class JavaSetToMengde<T> implements MengdeADT<T> {
 	public boolean erDelmengdeAv(MengdeADT<T> annenMengde) {
 		for (T element : set) {
 			if (!annenMengde.inneholder(element)) {
-                return false;
-            }
+				return false;
+			}
 		}
 		return true;
 	}
 
 	@Override
 	public boolean erLik(MengdeADT<T> annenMengde) {
-		return set.equals(annenMengde);
+		return (set.size() == annenMengde.antallElementer() && erDelmengdeAv(annenMengde));
+
 	}
 
 	@Override
 	public boolean erDisjunkt(MengdeADT<T> annenMengde) {
-		for (T element : (Set<T>) annenMengde) {
-			if (inneholder(element)) {
+		for (T t : set) {
+			if (annenMengde.inneholder(t)) {
 				return false;
 			}
 		}
@@ -45,10 +45,10 @@ public class JavaSetToMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public MengdeADT<T> snitt(MengdeADT<T> annenMengde) {
-		MengdeADT<T> snitt = new TabellMengde<T>();
-		for (T element : (Set<T>) annenMengde) {
-			if (inneholder(element)) {
-				snitt.leggTil(element);
+		MengdeADT<T> snitt = new JavaSetToMengde<T>();
+		for (T s : set) {
+			if (annenMengde.inneholder(s)) {
+				snitt.leggTil(s);
 			}
 		}
 		return snitt;
@@ -56,45 +56,48 @@ public class JavaSetToMengde<T> implements MengdeADT<T> {
 
 	@Override
 	public MengdeADT<T> union(MengdeADT<T> annenMengde) {
-		MengdeADT<T> union = new TabellMengde<T>();
-		for (T element : set) {
-			union.leggTil(element);
-		}
-		for (T element : (Set<T>) annenMengde) {
-			union.leggTil(element);
-		}
+		MengdeADT<T> union = new JavaSetToMengde<T>();
+		union.leggTilAlleFra(this);
+		union.leggTilAlleFra(annenMengde);
 		return union;
 	}
 
 	@Override
 	public MengdeADT<T> minus(MengdeADT<T> annenMengde) {
 		MengdeADT<T> minus = new TabellMengde<T>();
-        for (T element : set) {
-            if (!annenMengde.inneholder(element)) {
-                minus.leggTil(element);
-            }
-        }
-        return minus;
+		for (T element : set) {
+			if (!annenMengde.inneholder(element)) {
+				minus.leggTil(element);
+			}
+		}
+		return minus;
 	}
 
 	@Override
 	public void leggTil(T element) {
-		set.add(element);
+		if (element != null)
+			set.add(element);
 	}
 
 	@Override
 	public void leggTilAlleFra(MengdeADT<T> annenMengde) {
-		for (T element : (Set<T>) annenMengde) {
-			leggTil(element);
+		T[] leggTil = annenMengde.tilTabell();
+		for (int i = 0; i < annenMengde.antallElementer(); i++) {
+
+			set.add(leggTil[i]);
 		}
 	}
 
 	@Override
 	public T fjern(T element) {
-		set.remove(element);
-		return element;
+		if (set.contains(element)) {
+			set.remove(element);
+			return element;
+		}
+		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T[] tilTabell() {
 		return (T[]) set.toArray();
