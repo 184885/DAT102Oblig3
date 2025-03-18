@@ -50,7 +50,8 @@ public abstract class AbstractMengdeADTTest {
 		
 		mengdeLik3Elementer = opprettNyMengdeOfInteger();
 		mengdeLik3Elementer.leggTil(2);
-		mengdeLik3Elementer.leggTilAlleFra(mengdeMed3Elementer);
+		mengdeLik3Elementer.leggTil(1);
+		mengdeLik3Elementer.leggTil(3);
 
 		mengdeMed4Elementer = opprettNyMengdeOfInteger();
 		mengdeMed4Elementer.leggTil(4);
@@ -73,12 +74,25 @@ public abstract class AbstractMengdeADTTest {
 		mengdeMedOddetal.leggTil(9);
 		
 		union3og4 = opprettNyMengdeOfInteger();
-		union3og4.leggTilAlleFra(mengdeMed3Elementer);
-		union3og4.leggTilAlleFra(mengdeMed4Elementer);
+		union3og4.leggTil(1);
+		union3og4.leggTil(2);
+		union3og4.leggTil(3);
+		union3og4.leggTil(4);
+		union3og4.leggTil(5);
+		union3og4.leggTil(6);
+		union3og4.leggTil(7);
 				
 		unionParogOdd = opprettNyMengdeOfInteger();
-		unionParogOdd.leggTilAlleFra(mengdeMedPartal);
-		unionParogOdd.leggTilAlleFra(mengdeMedOddetal);
+		unionParogOdd.leggTil(0);
+		unionParogOdd.leggTil(1);
+		unionParogOdd.leggTil(2);
+		unionParogOdd.leggTil(3);
+		unionParogOdd.leggTil(4);
+		unionParogOdd.leggTil(5);
+		unionParogOdd.leggTil(6);
+		unionParogOdd.leggTil(7);
+		unionParogOdd.leggTil(8);
+		unionParogOdd.leggTil(9);
 		
 		snitt3ogOdd = opprettNyMengdeOfInteger();
 		snitt3ogOdd.leggTil(1);
@@ -95,6 +109,25 @@ public abstract class AbstractMengdeADTTest {
 		snittOddogUnion.leggTil(5);
 		snittOddogUnion.leggTil(7);
 	}
+
+	/*
+	@Test
+	void info() {
+		System.out.println(this.getClass().getSimpleName());
+
+		System.out.println("   " + tomMengde.getClass().getSimpleName() + " tomMengde");
+		System.out.println("   " + tomMengdeString.getClass().getSimpleName() + " tomMengdeString");
+		System.out.println("   " + mengdeMedEttElement.getClass().getSimpleName() + " mengdeMedEttElement");
+		System.out.println("   " + mengdeMedToElement.getClass().getSimpleName() + " mengdeMedToElement");
+		System.out.println("   " + mengdeMed3Elementer.getClass().getSimpleName() + " mengdeMed3Elementer");
+		System.out.println("   " + mengdeMed4Elementer.getClass().getSimpleName() + " mengdeMed4Elementer");
+		System.out.println("   " + mengdeMed5Elementer.getClass().getSimpleName() + " mengdeMed5Elementer");
+		System.out.println("   " + mengdeMed6Elementer.getClass().getSimpleName() + " mengdeMed6Elementer");
+		System.out.println("   " + mengdeMed7Elementer.getClass().getSimpleName() + " mengdeMed7Elementer");
+		System.out.println("   " + mengdeLik3Elementer.getClass().getSimpleName() + " mengdeLik3Elementer");
+		System.out.println("   " + mengdeLik3Elementer2.getClass().getSimpleName() + " mengdeLik3Elementer2");
+	}
+	*/
 
 	/*
 	 * Ting å teste (vi har konstruktører, erTom, inneholder, erDelMengdeAv, erLik,
@@ -121,12 +154,15 @@ public abstract class AbstractMengdeADTTest {
 	void enNyMengdeSkalVereTom() {
 		assertTrue(tomMengde.erTom());
 		assertTrue(tomMengdeString.erTom());
+		assertEquals(0,tomMengde.antallElementer());
+		assertFalse(tomMengde.inneholder(null));
 	}
 	
 	@Test
 	void enMengdeMedEttEllerFlereElementerSkalIkkeVaereTom() {
 		assertFalse(mengdeMedEttElement.erTom());
 		assertFalse(mengdeMed3Elementer.erTom());
+		assertFalse(mengdeMed3Elementer.inneholder(null));
 	}
 	
 	@Test
@@ -158,6 +194,7 @@ public abstract class AbstractMengdeADTTest {
 		assertEquals(1,tab[0]);
 		assertEquals(2,tab[1]);
 		assertEquals(3,tab[2]);
+		assertEquals(3,tab.length);
 	}
 	
 	@Test
