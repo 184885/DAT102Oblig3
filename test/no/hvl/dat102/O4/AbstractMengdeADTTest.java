@@ -279,7 +279,7 @@ public abstract class AbstractMengdeADTTest {
 	void erLikTest() {
 		assertTrue(mengdeMed3Elementer.erLik(mengdeLik3Elementer));
 		assertFalse(mengdeMed3Elementer.erLik(mengdeMed4Elementer));
-		assertFalse(mengdeMed3Elementer.erLik(mengdeMedPartal));
+		assertFalse(mengdeMedOddetal.erLik(mengdeMedPartal));
 		assertFalse(union3og4.erLik(mengdeMed3Elementer));
 		assertFalse(tomMengde.erLik(mengdeMed3Elementer));
 		
