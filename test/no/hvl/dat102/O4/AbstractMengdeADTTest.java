@@ -238,8 +238,9 @@ public abstract class AbstractMengdeADTTest {
 		assertTrue(mengdeMed3Elementer.inneholder(2));
 		assertTrue(mengdeMed3Elementer.inneholder(3));
 		
-		assertEquals(2,mengdeMed3Elementer.fjern(2));
 		assertEquals(3,mengdeMed3Elementer.fjern(3));
+		assertEquals(2,mengdeMed3Elementer.fjern(2));
+		
 		assertFalse(mengdeMed3Elementer.inneholder(2));
 		assertFalse(mengdeMed3Elementer.inneholder(3));
 		assertTrue(mengdeMed3Elementer.erTom());
