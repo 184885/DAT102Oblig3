@@ -12,7 +12,7 @@ public class SokingTidsTest {
 	public static void main(String[] args) {
 		
 		// Antall
-		int antElement = 1000000;
+		int antElement = 100000;
 		
 		// Lager en tabell og et sett
 		Set<Integer> set = new HashSet<>(antElement);
